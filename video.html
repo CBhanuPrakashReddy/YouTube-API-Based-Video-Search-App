@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video Details</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: #333;
+            color: white;
+            padding: 10px;
+            text-align: center;
+        }
+        #video-container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            margin-top: 50px;
+        }
+        iframe {
+            width: 80%;
+            height: 500px;
+            border: none;
+        }
+        h2 {
+            margin-top: 20px;
+            font-size: 24px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Video Details</h1>
+    </header>
+
+    <div id="video-container"></div>
+
+    <script>
+        function showClickedVideo() {
+            let videoData = JSON.parse(localStorage.getItem("clickedVideo"));
+            let videoContainer = document.getElementById("video-container");
+
+            if (videoData) {
+                let iframe = document.createElement("iframe");
+                iframe.src = `https://www.youtube.com/embed/${videoData.videoId}`;
+                iframe.title = videoData.snippet.title;
+                iframe.frameBorder = "0";
+                iframe.allow = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture";
+                iframe.allowFullscreen = true;
+
+                let title = document.createElement("h2");
+                title.innerText = videoData.snippet.title;
+
+                videoContainer.appendChild(iframe);
+                videoContainer.appendChild(title);
+            } else {
+                videoContainer.innerHTML = "<p>No video data available.</p>";
+            }
+        }
+
+        document.addEventListener("DOMContentLoaded", showClickedVideo);
+    </script>
+</body>
+</html>
